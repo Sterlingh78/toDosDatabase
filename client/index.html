@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8" />
+  </head>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="./styles.css">
+  <body>
+    <div class="wrapper">
+      <header>Todo List</header>
+      <div class="inputField userInput">
+        <input type="text" placeholder="Enter new task" class="newToDo"/>
+        <button type="button" onclick="addToDo();" class="addBtn"><i class="fas fa-plus"></i></button>
+      </div>
+      <div id="radioDiv"></div>
+      <div class="categoryField userInput">
+        <input type="text" placeholder="Enter new category" class="newCategory"/>
+        <button type="button" onclick="addCategory();" class="addCategoryBtn"><i class="fas fa-plus"></i></button>
+      </div>
+      <div class="listWrapper">
+         <!-- <ul class="todoList list">
+            <li class="done">
+            Todo Item 1 (Done example)
+            <span class="editBtn" onclick="editToDo(this,toDos)"><i class="fa fa-edit"></i></span>
+            <span class="trashBtn" onclick="deleteToDo(toDos);"> <i class="fa fa-trash"></i></span> 
+          </li>
+          <li>
+            Todo Item 2
+            <span class="editBtn" onclick="editToDo(this,toDos)"><i class="fa fa-edit"></i></span>
+            <span class="trashBtn" onclick="deleteToDo(toDos);"> <i class="fa fa-trash"></i></span> 
+          </li> 
+        </ul>
+        <h3>Chores</h3>
+        <ul class="chores list">
+          <li class="done">
+            Todo Item 1 (Done example)
+            <span class="editBtn" onclick="editToDo(this,toDos)"><i class="fa fa-edit"></i></span>
+            <span class="trashBtn" onclick="deleteToDo(toDos);"> <i class="fa fa-trash"></i></span> 
+          </li>
+          <li>
+            Todo Item 2
+            <span class="editBtn" onclick="editToDo(this,toDos)"><i class="fa fa-edit"></i></span>
+            <span class="trashBtn" onclick="deleteToDo(toDos);"> <i class="fa fa-trash"></i></span> 
+          </li> 
+        </ul> -->
+      </div> 
+      <div class="footer">
+        <span class="alert">You have 0 pending tasks.</span>
+        <button type="button" onclick="clearDoneItems();">Clear Done</button>
+      </div>
+      <p>First add a category then tasks. To mark a task as complete, double click it.</p>
+    </div>
+
+    <script src="./index.js"></script>
+  </body>
+</html>
