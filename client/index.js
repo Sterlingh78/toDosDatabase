@@ -72,7 +72,7 @@ function showToDo(arr) {
         for (const item in arr[i].toDoList) {
             const toDoItem = document.createElement("li")
             toDoItem.setAttribute("ondblclick","setDoneItem(this);")
-            toDoItem.id = arr[i].toDoList[item].id
+            toDoItem.id = arr[i].toDoList[item]._id
             toDoItem.textContent = `${arr[i].toDoList[item].name}`
             if (arr[i].toDoList[item].done == true) {
             toDoItem.classList.add("done")
@@ -80,7 +80,7 @@ function showToDo(arr) {
 
             const editBtn = document.createElement("span")
             editBtn.classList.add("editBtn")
-            editBtn.id = arr[i].toDoList[item].id
+            editBtn.id = arr[i].toDoList[item]._id
             editBtn.setAttribute("onclick","editToDo(this);")
             const editIcon = document.createElement("i")
             editIcon.classList.add("fa", "fa-edit")
@@ -89,13 +89,10 @@ function showToDo(arr) {
             const trashBtn = document.createElement("span")
             trashBtn.classList.add("trashBtn")
             trashBtn.setAttribute("onclick","deleteToDo(this);")
-            trashBtn.id = arr[i].toDoList[item].id
+            trashBtn.id = arr[i].toDoList[item]._id
             const trashIcon = document.createElement("i")
             trashIcon.classList.add("fa", "fa-trash")
             trashBtn.appendChild(trashIcon)
-
-            editBtn.id = arr[i].toDoList[item].id
-            trashBtn.id = arr[i].toDoList[item].id
 
             toDoItem.appendChild(editBtn)
             toDoItem.appendChild(trashBtn)

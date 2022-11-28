@@ -6,5 +6,5 @@ POST http://localhost:8000/addCategory
 Content-Type: application/json
 
 {
-    "category": "swag"
+    "category": "Chores"
 }
