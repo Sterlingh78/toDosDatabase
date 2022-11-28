@@ -24,7 +24,7 @@ body {
 }
 
 p {
-    padding-top: 20px;
+  padding-top: 20px;
 }
 
 button {
@@ -84,7 +84,8 @@ input.radio {
   margin-right: 10px;
 }
 
-input.editInput, input.editCategoryInput {
+input.editInput,
+input.editCategoryInput {
   border: 2px solid var(--main-green);
 }
 
@@ -141,7 +142,7 @@ ul span {
 }
 
 .list li:hover span.trashBtn {
-    right: 0;
+  right: 0;
 }
 
 .list li:hover span.editBtn {
