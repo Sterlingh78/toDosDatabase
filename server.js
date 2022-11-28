@@ -127,7 +127,7 @@ app.get('/editToDo/:toDoID', async (req, res) => {
 app.put('/editToDo/', async (req, res) => {
     const placeholder = req.body.placeholder
     const value = req.body.value
-    console.log(placeholder,value)
+    //console.log(placeholder,value)
 
     const category = await toDo.findOne({ 'toDoList.name': placeholder })
 
@@ -138,31 +138,35 @@ app.put('/editToDo/', async (req, res) => {
     }
 
     let newCat = await category.save()
-    console.log(newCat)
+    //console.log(newCat)
 
     getAllToDos(res)
 })
-/*
-app.delete('/deleteToDo/:toDoID', (req, res) => {
-    const ID = req.params.toDoID
 
-    for (i = 0; i < toDos.length; i++) {
-        for (const toDo of toDos[i].toDoList) {
-            if (toDo.id == ID) {
-                toDos[i].toDoList.splice(toDos[i].toDoList.indexOf(toDo), 1)
-            }
+app.delete('/deleteToDo/:toDoID', async (req, res) => {
+    const ID = req.params.toDoID
+    const category = await toDo.findOne({ 'toDoList._id': ID })
+
+    for (const toDoItem of category.toDoList) {
+        if (ID == toDoItem._id) {
+            category.toDoList.splice(category.toDoList.indexOf(toDoItem), 1)
         }
     }
 
-    res.send(toDos)
+    let newCat = await category.save()
+    //console.log(newCat)
+
+    getAllToDos(res)
 })
 
-app.get('/pendingToDo', (req, res) => {
+app.get('/pendingToDo', async (req, res) => {
     let counter = 0
+    const toDos = await toDo.find()
+    //console.log(toDos)
 
-    for (i = 0; i < toDos.length; i ++) {
-        for (const toDo of toDos[i].toDoList) {
-            if (toDo.done == false) {
+    for (category of toDos) {
+        for (toDoItem of category.toDoList) {
+            if (toDoItem.done == false) {
                 counter += 1
             }
         }
@@ -171,21 +175,39 @@ app.get('/pendingToDo', (req, res) => {
     res.send({counter})
 })
 
-app.put('/setDone/', (req, res) => {
+app.put('/setDone/', async (req, res) => {
     const ID = req.body.toDoID
+    const category = await toDo.findOne({ 'toDoList._id': ID })
 
-    for (i = 0; i < toDos.length; i++) {
-        for (const toDo of toDos[i].toDoList) {
-            if (ID == toDo.id) {
-                toDo.done = true
+    for (const toDoItem of category.toDoList) {
+        if (ID == toDoItem._id) {
+            toDoItem.done = true
+        }
+    }
+
+    let newCat = await category.save()
+    //console.log(newCat)
+
+    getAllToDos(res)
+})
+
+app.get('/deleteDoneToDos', async (req, res) => {
+    const categories = await toDo.find({ 'toDoList.done': true })
+    console.log(categories)
+    /*
+    for (const category of toDos) {
+        let j = category.toDoList.length
+
+        while (j--) {
+            if (category.toDoList[j].done == true) {
+                category.toDoList.splice(category.toDoList[j], 1)
             }
         }
     }
 
-    res.send(toDos)
-})
+    //let newToDos = await toDo.save()
 
-app.get('/deleteDoneToDos', (req, res) => {
+    
     for (i = 0; i < toDos.length; i++) {
         j = toDos[i].toDoList.length
         while (j--) {
@@ -193,11 +215,11 @@ app.get('/deleteDoneToDos', (req, res) => {
                 toDos[i].toDoList.splice(toDos[i].toDoList[j], 1)
             }
         } 
-    }
+    }*/
 
-    res.send(toDos)
+    getAllToDos(res)
 })
-
+/*
 app.delete('/deleteCategory/:toDoID', (req, res) => {
     const ID = req.params.toDoID
 
