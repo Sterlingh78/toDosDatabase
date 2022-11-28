@@ -1,17 +1,12 @@
 require('dotenv').config()
 
 const express = require('express')
-const cors = require('cors')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const app = express()
 const toDo = require('./models/toDo')
 
 app.use(express.static('client'))
-
-app.use(cors({
-    origin: '*'
-}))
 app.use(bodyParser.json() )
 app.use(bodyParser.urlencoded({
     extended: true
@@ -22,49 +17,6 @@ mongoose.connect(`mongodb+srv://sterlingh78:${process.env.MONGO_PASS}@cluster0.l
 const db = mongoose.connection
 db.on('error', (error) => console.error(error))
 db.once('open', () => console.log('Database Connected'))
-
-let toDos = [/* 
-  {
-      category: "General",
-      toDoList: [
-          {
-              id: 2756,
-              name: "get cards",
-              done: false
-          },
-          {
-              id: 1745,
-              name: "go to work",
-              done: false
-          },
-          {
-              id: 9784,
-              name: "play tarkov",
-              done: false
-          },
-      ]
-  },
-  {
-      category: "School",
-      toDoList: [
-          {
-              id: 5678,
-              name: "swag",
-              done: false
-          },
-          {
-              id: 3462,
-              name: "steeeze",
-              done: false
-          },
-          {
-              id: 7846,
-              name: "cool",
-              done: false
-          },
-      ]
-  },*/
-]
 
 async function getAllToDos(res) {
     try {
@@ -192,9 +144,8 @@ app.put('/setDone/', async (req, res) => {
 })
 
 app.get('/deleteDoneToDos', async (req, res) => {
-    const categories = await toDo.find({ 'toDoList.done': true })
-    console.log(categories)
-    /*
+    const toDos = await toDo.find()
+    
     for (const category of toDos) {
         let j = category.toDoList.length
 
@@ -203,57 +154,41 @@ app.get('/deleteDoneToDos', async (req, res) => {
                 category.toDoList.splice(category.toDoList[j], 1)
             }
         }
+        await category.save()
     }
-
-    //let newToDos = await toDo.save()
-
-    
-    for (i = 0; i < toDos.length; i++) {
-        j = toDos[i].toDoList.length
-        while (j--) {
-            if (toDos[i].toDoList[j].done == true) {
-                toDos[i].toDoList.splice(toDos[i].toDoList[j], 1)
-            }
-        } 
-    }*/
 
     getAllToDos(res)
 })
-/*
-app.delete('/deleteCategory/:toDoID', (req, res) => {
-    const ID = req.params.toDoID
 
-    for (i = 0; i < toDos.length; i++) {
-        if (toDos[i].category == ID) {
-            toDos.splice(i, 1)
-        }
-    }
+app.delete('/deleteCategory/:categoryName', async (req, res) => {
+    const categoryName = req.params.categoryName
 
-    res.send(toDos)
+    await toDo.deleteOne({ category: categoryName }).then(function(){
+        console.log("Data deleted") 
+    }).catch(function(error){
+        console.log(error)
+    })
+
+    getAllToDos(res)
 })
 
-app.get('/editCategory/:toDoID', (req, res) => {
-    const ID = req.params.toDoID
+app.get('/editCategory/:categoryName', async (req, res) => {
+    const categoryName = req.params.categoryName
+    const categoryObj = await toDo.findOne({ category: categoryName })
 
-    for (i = 0; i < toDos.length; i++) {
-        if (toDos[i].category == ID) {
-            res.send(JSON.stringify(toDos[i].category))
-        }
-    }
+    res.send(JSON.stringify(categoryObj.category))
 })
 
-app.put('/editCategory/', (req, res) => {
+app.put('/editCategory/', async (req, res) => {
     const placeholder = req.body.placeholder
     const value = req.body.value
+    const categoryObj = await toDo.findOne({ category: placeholder })
 
-    for (i = 0; i < toDos.length; i ++) {
-        if (toDos[i].category == placeholder) {
-            toDos[i].category = value
-        } 
-    }
+    categoryObj.category = value
+    await categoryObj.save()
 
-    res.send(toDos)
-})*/
+    getAllToDos(res)
+})
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

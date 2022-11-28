@@ -1,5 +1,5 @@
 async function getPendingItems() {
-    const response = await fetch('http://127.0.0.1:8000/pendingToDo')
+    const response = await fetch('/pendingToDo')
     const data = await response.json()
     return data
 }
@@ -16,7 +16,7 @@ function pendingItems() {
 function setDoneItem(elem) {
     elem.classList.add("done")
 
-    fetch('http://127.0.0.1:8000/setDone/',{
+    fetch('/setDone',{
         method: 'PUT',
         body: JSON.stringify({
             toDoID: `${elem.id}`
@@ -33,7 +33,7 @@ function setDoneItem(elem) {
 }
 
 async function getToDos() {
-    const response = await fetch('http://127.0.0.1:8000/sendToDo')
+    const response = await fetch('/sendToDo')
     const data = await response.json()
     return data
 }
@@ -109,7 +109,7 @@ function addToDo() {
     let inputField = document.querySelector(".newToDo")
     let checkedRadio = document.querySelector("input:checked").id
 
-    fetch('http://127.0.0.1:8000/addToDo',{
+    fetch('/addToDo',{
         method: 'POST',
         body: JSON.stringify({
             category: `${checkedRadio}`,
@@ -141,7 +141,7 @@ function editToDo(elem) {
     editInput.classList.add("editInput")
     editInput.setAttribute("type","text")
 
-    fetch(`http://127.0.0.1:8000/editToDo/${elem.id}`)
+    fetch(`/editToDo/${elem.id}`)
     .then(res => res.json())
     .then(data => {
         editInput.setAttribute("placeholder",`${data}`)
@@ -162,7 +162,7 @@ function editToDo(elem) {
 function finishEdit() {
     const newInput = document.querySelector(".editInput")
 
-    fetch('http://127.0.0.1:8000/editToDo/',{
+    fetch('/editToDo/',{
         method: 'PUT',
         body: JSON.stringify({
             placeholder: `${newInput.placeholder}`,
@@ -202,7 +202,7 @@ function finishEdit() {
 }
 
 function deleteToDo(elem) {
-    fetch(`http://127.0.0.1:8000/deleteToDo/${elem.id}`,{
+    fetch(`/deleteToDo/${elem.id}`,{
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -215,7 +215,7 @@ function deleteToDo(elem) {
 }
 
 async function deleteDoneToDos() {
-    const response = await fetch('http://127.0.0.1:8000/deleteDoneToDos')
+    const response = await fetch('/deleteDoneToDos')
     const data = await response.json()
     return data
 }
@@ -227,7 +227,7 @@ function clearDoneItems() {
 
 function addCategory() {
     const addCategoryInput = document.querySelector(".newCategory")
-    fetch('http://127.0.0.1:8000/addCategory',{
+    fetch('/addCategory',{
         method: 'POST',
         body: JSON.stringify({category: `${addCategoryInput.value}`}),
         headers: {
@@ -241,7 +241,7 @@ function addCategory() {
 }
 
 function deleteCategory(elem) {
-    fetch(`http://127.0.0.1:8000/deleteCategory/${elem.id}`,{
+    fetch(`/deleteCategory/${elem.id}`,{
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -270,7 +270,7 @@ function editCategory(elem) {
     const icon = document.createElement("i")
     icon.classList.add("fas","fa-edit")
 
-    fetch(`http://127.0.0.1:8000/editCategory/${elem.id}`)
+    fetch(`/editCategory/${elem.id}`)
     .then(res => res.json())
     .then(data => {
         editCategoryInput.setAttribute("placeholder",`${data}`)
@@ -285,7 +285,7 @@ function finishCategoryEdit() {
     const wrapper = document.querySelector(".categoryField")
     const newCategoryInput = document.querySelector(".editCategoryInput")
 
-    fetch('http://127.0.0.1:8000/editCategory/',{
+    fetch('/editCategory/',{
         method: 'PUT',
         body: JSON.stringify({
             placeholder: `${newCategoryInput.placeholder}`,
