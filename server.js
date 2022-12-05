@@ -13,7 +13,7 @@ app.use(
     extended: true,
   })
 )
-const port = `0.0.0.0:$PORT`
+const port = $PORT
 
 mongoose.connect(
   `mongodb+srv://sterlingh78:${process.env.MONGO_PASS}@cluster0.lfbf0x3.mongodb.net/?retryWrites=true&w=majority`,
